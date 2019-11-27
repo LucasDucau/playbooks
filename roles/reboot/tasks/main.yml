@@ -1,0 +1,8 @@
+- name: figure out who I am
+  command: whoami
+  register: whoami
+
+- name: show who I am
+  debug:
+    msg: "I am {{whoami.stdout}}"
+

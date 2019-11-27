@@ -1,0 +1,56 @@
+
+  - name: "Install grubby"
+    dnf:
+            state: present
+            update_cache: true
+            name: ["grubby"]
+
+  - name: "Revert back to cgroup v1"
+    become: true
+    command:
+            grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+
+
+  - name: "Add Docker dependencies"
+    dnf:
+            state: present
+            update_cache: true
+            name: ["dnf-plugins-core", "yum-utils", "device-mapper-persistent-data", "lvm2", "python3-pip"]
+
+
+  - name: "Enable ssh service"
+    become: true
+    command:
+            systemctl enable sshd
+
+  - name: "Add docker repo key"
+    become: true
+    command:
+            dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+
+  - name: "Install Docker"
+    dnf:
+            state: present
+            update_cache: true
+            name: [ "docker-ce", "docker-ce-cli"]
+
+  - name: "Start and enable Docker"
+    become: true
+    command:
+
+            systemctl start docker.service
+
+  - name: "Enable docker.service"
+    become: true
+    command:
+
+            systemctl enable docker.service
+
+  - name: "Add me to Docker users"
+    command:
+            sudo usermod -aG docker lucas
+
+  - name: "Install Docker-compose"
+    command:
+            sudo pip3 install docker-compose
+
