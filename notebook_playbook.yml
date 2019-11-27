@@ -2,7 +2,10 @@
 
 - hosts: localhost
   become: true
+  vars:
+          user: lucas
   roles:
           - {role: 'common', tags: 'common'}
           - {role: 'reboot', tags: 'reboot'}
+          - {role: 'vb', tags: 'vb'}
 
