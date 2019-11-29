@@ -4,8 +4,11 @@
   become: true
   vars:
           user: lucas
+          kubectl_version: 1.16.0
+          helm_version: 3.0.0
   roles:
           - {role: 'common', tags: 'common'}
           - {role: 'reboot', tags: 'reboot'}
           - {role: 'vb', tags: 'vb'}
+          - {role: 'kube', tags: 'kube'}
 

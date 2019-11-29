@@ -7,6 +7,7 @@
     get_url:
             url: http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
             dest: /etc/yum.repos.d/
+            group: {{user}}
 
   - name: "Figure out kernel version"
     command:

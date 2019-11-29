@@ -2,18 +2,19 @@
     get_url:
             url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
             dest: /usr/local/bin/minikube
-            mode: 0775
+            mode: 077
+            group: {{user}}
 
   - name: "Wget kubectl"
     get_url:
-            url: "https://storage.googleapis.com/kubernetes-release/release/{{kubectl_version}}/bin/linux/amd64/kubectl"
+            url: "https://storage.googleapis.com/kubernetes-release/release/v{{kubectl_version}}/bin/linux/amd64/kubectl"
             dest: /usr/local/bin/kubectl
             mode: 0775
+            group: {{user}}
 
   - name: "Wget Helm"
     get_url:
             url: "https://get.helm.sh/helm-v{{helm_version}}-linux-amd64.tar.gz"
             dest: "/home/{{user}}/Downloads/"
-            mode: 0775
-
+            group: {{user}}
 
