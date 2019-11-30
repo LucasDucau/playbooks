@@ -1,5 +1,5 @@
 - name: figure out who I am
-  command: whoami
+  command: "whoami"
   register: whoami
 
 - name: show who I am

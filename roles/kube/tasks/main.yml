@@ -2,19 +2,47 @@
     get_url:
             url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
             dest: /usr/local/bin/minikube
-            mode: 077
-            group: {{user}}
+            mode: 0775
+            group: "{{user}}"
 
   - name: "Wget kubectl"
     get_url:
             url: "https://storage.googleapis.com/kubernetes-release/release/v{{kubectl_version}}/bin/linux/amd64/kubectl"
             dest: /usr/local/bin/kubectl
             mode: 0775
-            group: {{user}}
+            group: "{{user}}"
 
   - name: "Wget Helm"
     get_url:
             url: "https://get.helm.sh/helm-v{{helm_version}}-linux-amd64.tar.gz"
             dest: "/home/{{user}}/Downloads/"
-            group: {{user}}
+            group: "{{user}}"
 
+  - name: "Unzip Helm"
+    unarchive:
+            src: "/home/{{user}}/Downloads/helm-v{{helm_version}}-linux-amd64.tar.gz"
+            dest: "/home/{{user}}/Downloads/"
+
+  - name: "Mv Helm to /usr/local/bin"
+    command:
+            "mv /home/{{user}}/Downloads/linux-amd64/helm /usr/local/bin"
+
+  - name: "Helm +x"
+    file:
+            path: "/usr/local/bin/helm"
+            mode: a=+x
+
+  - name: "Test Helm"
+    register: helmver
+    command:
+            helm version
+           
+  - name: "Print Helm version"
+    debug:
+            msg:
+                    "{{helmver.stdout}}"
+
+
+  - name: "Add stable repo"
+    command:
+            helm repo add stable https://kubernetes-charts.storage.googleapis.com/
