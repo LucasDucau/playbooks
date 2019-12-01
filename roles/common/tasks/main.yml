@@ -32,7 +32,7 @@
     dnf:
             state: present
             update_cache: true
-            name: [ "docker-ce", "docker-ce-cli"]
+            name: [ "{{docker_release}}", "docker-ce-cli"]
 
   - name: "Start and enable Docker"
     become: true

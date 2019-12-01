@@ -1,0 +1,22 @@
+  - name: "HandleLidSwitch"
+    command:
+            sed -i'' "s/"#HandleLidSwitch=.*"/HandleLidSwitch=ignore/g" /etc/systemd/logind.conf
+
+  - name: "HandleLidSwitchExternalPower"
+    command:
+            sed -i'' "s/"#HandleLidSwitchExternalPower=.*"/HandleLidSwitchExternalPower=ignore/g" /etc/systemd/logind.conf
+
+  - name: "HandleLidSwitchDocked"
+    command:
+            sed -i'' "s/"#HandleLidSwitchDocked=.*"/HandleLidSwitchDocked=ignore/g" /etc/systemd/logind.conf
+
+  - name: "cat logind.conf"
+    command:
+            cat /etc/systemd/logind.conf
+    register: catlogind
+
+  - name: "Print logind.conf"
+    debug:
+            msg:
+                    "{{catlogind.stdout}}"
+
