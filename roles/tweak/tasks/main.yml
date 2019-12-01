@@ -20,3 +20,8 @@
             msg:
                     "{{catlogind.stdout}}"
 
+
+  - name: "set completion-ignore-case on"
+    command:
+            sed -i'' '2 a set completion-ignore-case on' /etc/inputrc
+
