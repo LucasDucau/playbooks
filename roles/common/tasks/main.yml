@@ -15,7 +15,7 @@
     dnf:
             state: present
             update_cache: true
-            name: ["dnf-plugins-core", "yum-utils", "device-mapper-persistent-data", "lvm2", "python3-pip"]
+            name: ["python3-devel","perl","luajit-devel", "libnotify-devel", "dbus-glib-devel", "libcanberra-devel", "libproxy-devel", "openssl-devel", "glib2-devel","dnf-plugins-core", "yum-utils", "device-mapper-persistent-data", "lvm2", "python3-pip"]
 
 
   - name: "Enable ssh service"
