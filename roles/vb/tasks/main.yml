@@ -49,3 +49,26 @@
     apt:
       update_cache: true
       name: ["opera-stable"]
+  
+  - name: "wget awscli"
+    get_url:
+            url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+            dest: "/tmp/awscli.zip"
+            group: "{{user}}"  
+  
+  - name: unzip awscli
+    unarchive:
+      src: "/tmp/awscli.zip"
+      dest: "/tmp"
+    
+  - name: install awscli
+    command:
+      sh /tmp/aws/install
+    ignore_errors: yes
+
+  - name: dl azurecli
+    get_url:
+      url: https://aka.ms/InstallAzureCLIDeb
+      dest: "/tmp/azurecli"
+      group: "{{user}}"
+      mode: "0744"
