@@ -3,11 +3,9 @@
 
 
 
-  - name: "Wget virtualbox.repo"
-    get_url:
-            url: http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
-            dest: /etc/yum.repos.d/
-            group: "{{user}}"
+  - name: add vbox key
+    command:
+      apt-key adv --fetch-keys https://www.virtualbox.org/download/oracle_vbox_2016.asc    
 
   - name: "Figure out kernel version"
     command:
@@ -16,23 +14,38 @@
 
             
   - name: "Install Dependencies"
-    dnf:
-            name: ["binutils","gcc", "make", "patch", "libgomp", "glibc-headers", "glibc-devel", "kernel-headers", "kernel-devel-{{kernel_version.stdout}}", "dkms",                  "qt5-qtx11extras", "libxkbcommon"]
-            state: present
+    apt:
+          name: ["binutils","gcc", "make", "patch","dkms"]
+          state: present
+  
+  - name: add vbox repo
+    command:
+      add-apt-repository \
+      "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian buster contrib"
 
   - name: "Install Virtual Box"
-    dnf:
-            name: ["VirtualBox-6.0"]
-            state: present 
+    apt:
+      update_cache: true
+      name: ["virtualbox-6.0"]
+      state: present 
 
-  - name: "Rebuild kernel modules"
-    command:
-            /usr/lib/virtualbox/vboxdrv.sh setup
+#  - name: "Rebuild kernel modules"
+ #   command:
+  #          /usr/lib/virtualbox/vboxdrv.sh setup
       
   - name: "Add me to vbox users"
     command:
             usermod -aG vboxusers {{user}}
 
+  - name: add opera key
+    command:
+      apt-key adv --fetch-keys https://deb.opera.com/archive.key
 
+  - name: add opera repo
+    command:
+      add-apt-repository "deb [arch=i386,amd64] https://deb.opera.com/opera-stable/ stable non-free"
 
-# https://www.if-not-true-then-false.com/2010/install-virtualbox-with-yum-on-fedora-centos-red-hat-rhel/
+  - name: install opera
+    apt:
+      update_cache: true
+      name: ["opera-stable"]
