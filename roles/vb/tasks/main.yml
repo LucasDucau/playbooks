@@ -72,3 +72,4 @@
       dest: "/tmp/azurecli"
       group: "{{user}}"
       mode: "0744"
+
